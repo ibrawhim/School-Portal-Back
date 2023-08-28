@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 
 const corsOptions = {
-    origin: 'https://main-school-portal.vercel.app/',
+    origin: 'https://school-portal-back.vercel.app/',
     optionsSuccessStatus: 200,
   };
 
