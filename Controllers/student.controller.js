@@ -1,5 +1,11 @@
 const studentModel = require('../models/student.model')
 const jwt = require('jsonwebtoken')
+const cloudinary = (require('cloudinary'))
+cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.API_KEY, 
+    api_secret: process.env.API_SECRET 
+  });
 
 
 const signUp = (req,res) => {
@@ -28,7 +34,9 @@ const signIn = (req,res) => {
                 if(!same){
                     res.send({status:false,message:'Wrong Credentials'})
                 }else {
-                    let token = jwt.sign({email},secret,{expiresIn: "7h"})
+                    const expiresInMinutes = 30;
+                    const expirationTimeInSeconds = expiresInMinutes * 60;
+                    let token = jwt.sign({email},secret,{expiresIn: expirationTimeInSeconds })
                     // console.log(token);
                     res.send({status:true, message:'Sign In Successful',token})
                 }
@@ -60,5 +68,18 @@ const portal = (req,res)=>{
     })
     
 }
+const upload = (req,res) => {
+    let myImage= req.body.image;
+    cloudinary.v2.uploader.upload(myImage,(err,result)=>{
+        if(err){
+            console.log('file could not be uploaded');
+            console.log(err);
+        }else {
+            let firstImage = result.secure_url;
+            res.send({message:'image uploaded successfully',status:true, firstImage})
+        }
+    })
 
-module.exports = {signUp,signIn,portal}
+}
+
+module.exports = {signUp,signIn,portal,upload}
