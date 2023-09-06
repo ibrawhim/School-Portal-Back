@@ -20,19 +20,20 @@ let port = process.env.PORT
 
 
 let connection = app.listen(port,()=>{
-    console.log(`app listening at port ${port}`);
+    console.log(`app listening at port ${port}`)
 })
 let socketClient = require('socket.io')
 let io = socketClient(connection,{
-    cors: {origin: '*'}
+    cors :{origin: "*"}
 })
-io.on('connection',(socket)=>{
+io.on("connection",(socket)=>{
     console.log(socket.id);
-    console.log('a user connected successfully');
-    socket.on('sendMsg', (message) => {
+    console.log("a user connected successfully");
+    socket.on("sendMsg",(message)=>{
         console.log(message);
+        io.emit("broadcastMsg",message )
     })
-    // socket.on('disconnect',()=>{
-    //     console.log('A user disconnected');
-    // })
+    socket.on("disconnect",()=>{
+        console.log('someone disconnected')
+    })
 })
