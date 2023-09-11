@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {signUp,signIn,portal,upload} = require("../Controllers/student.controller")
+const {signUp,signIn,portal,upload } = require("../Controllers/student.controller")
 
 router.post('/signup',signUp)
 router.post('/signin',signIn)

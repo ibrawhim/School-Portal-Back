@@ -16,7 +16,9 @@ app.use('/student',studentRouter)
 let port = process.env.PORT
 
 
-
+app.get("/", (req,res)=>{
+    res.send("hello world")
+})
 
 
 let connection = app.listen(port,()=>{

@@ -8,6 +8,7 @@ cloudinary.config({
   });
 
 
+ 
 const signUp = (req,res) => {
     console.log(req.body);
     let info = req.body
@@ -81,5 +82,7 @@ const upload = (req,res) => {
     })
 
 }
+
+
 
 module.exports = {signUp,signIn,portal,upload}
