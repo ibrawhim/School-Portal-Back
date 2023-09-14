@@ -15,6 +15,13 @@ let studentSchema = mongoose.Schema({
     matric: {type: String, required: true}
 })
 
+let helpSchema = mongoose.Schema({
+    subject: {type: String, required: true},
+    help: {type: String, required: true},
+    helpTime: {type: String, required: true},
+    helpDate: {type: String, required: true},
+})
+
 let saltRound = 5
 studentSchema.pre("save",function(next){
     bcrypt.hash(this.password,saltRound,(err,hashedPassword)=>{
@@ -38,6 +45,9 @@ studentSchema.methods.validatePassword = function(password,callback){
     })
 }
 let studentModel = mongoose.model('Signup',studentSchema)
+let helpModel = mongoose.model('help',helpSchema)
 
 
-module.exports = studentModel
+
+
+module.exports = {studentModel,helpModel}

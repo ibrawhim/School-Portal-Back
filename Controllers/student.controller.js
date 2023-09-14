@@ -1,4 +1,5 @@
-const studentModel = require('../models/student.model')
+const {studentModel,helpModel} = require('../models/student.model')
+const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 const cloudinary = (require('cloudinary'))
 cloudinary.config({ 
@@ -83,6 +84,49 @@ const upload = (req,res) => {
 
 }
 
+const sendEmail = () => {
+    console.log('email works');
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.NODE_EMAIL,
+          pass: process.env.NODE_PASS
+        },
+        tls: {
+            rejectUnauthorized: false,
+          }
+      });
+      
+      var mailOptions = {
+          to: 'ibrahimabiodun069@gmail.com',
+          from: 'adeniyi.ibrawhim@gmail.com',
+          subject: 'Testing my Node Mailer',
+          html: '<h1>Hello Mr Adeolu, how are you doing<h1>'
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent:' + info.response);
+        }
+      });
+}
+
+const helpStudents = (req,res) => {
+    console.log(req.body);
+    let info = req.body
+    let form = helpModel(info)
+    form.save()
+    .then((result)=>{
+        console.log(result);
+        res.send({status:true, message:'help sent', result})
+    })
+    .catch((error)=>{
+        console.log(error);
+    })
+}
 
 
-module.exports = {signUp,signIn,portal,upload}
+
+module.exports = {signUp,signIn,portal,upload,sendEmail,helpStudents}
