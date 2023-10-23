@@ -71,12 +71,14 @@ const portal = (req,res)=>{
     
 }
 const upload = (req,res) => {
+    console.log(req.body)
     let myImage= req.body.image;
     cloudinary.v2.uploader.upload(myImage,(err,result)=>{
         if(err){
             console.log('file could not be uploaded');
             console.log(err);
         }else {
+            console.log(result);
             let firstImage = result.secure_url;
             res.send({message:'image uploaded successfully',status:true, firstImage})
         }
